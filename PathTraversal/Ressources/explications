@@ -1,0 +1,11 @@
+En regardant comment le site circule de page en page, on remarque qu'il appelle les differentes pages par un get ?page=nomdelapage par exemple ?page=recover.
+En testant differentes strings, on remarque que le pop up wtf a change!
+Ainsi apres plusieurs essais, on obtient le flag avec l'url: http://10.12.1.119/?page=../../../../../../../etc/passwd
+
+Il est donc possible de modifier la string page pour acceder à des fichiers et dossiers en dehors du dossier web racine.
+
+Pour empecher cette faille, on peut verifier la string pour empecher les ../ ou encore créer des references indirectes vers les pages et ne pas afficher en clair les noms de pages.
+
+Source:
+    https://owasp.org/www-community/attacks/Path_Traversal
+    https://affinity-it-security.com/how-to-prevent-path-traversal/

@@ -1,0 +1,12 @@
+Sur la page upload (/?page=upload), on a essaye d'upload different fichier de differents type (jpg, php, etc).
+On a remarque que si on passait un fichier .php.jpg, il arrivait à l upload, il y a donc un probleme au niveau de la verification du type de fichier!
+Avec Postman, on a pu créer une requete POST avec un fichier .php en editant le content-type en image/jpeg.
+La reponse de la requete est une page html avec le flag.
+
+On peut voir l importance de bien verifier les types de fichiers uploader. Sinon on s expose à des injections de codes ou de virus.
+
+Pour empecher cela, il faut rajouter une verification dans le back qui analyse le type directement du fichier upload:
+    -> on peut creer l image à partir de la string reçu et on fait un getimagesize pour obtenir son vrai type.
+Cela permet de verifier le type du fichier et de bloquer l'ajout de fichier parasite.
+
+Source: https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload

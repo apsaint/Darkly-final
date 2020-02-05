@@ -5,3 +5,5 @@ Il est alors possible de mettre n'importe quelle adresse à la place et d'utilis
 
 
 L'adresse email devrait être tout simplement cachée en back. Un bon système de récupération de mot de passe, consiste à demander l'email de la personne, de vérifier que l'email correspond à un utilisateur, et d'envoyer un email de réinitialisation de mot de passe (avec token expirable) à l'utilisateur. 
+
+Source: https://owasp.org/www-community/attacks/Web_Parameter_Tampering
