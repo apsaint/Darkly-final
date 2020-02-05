@@ -20,6 +20,10 @@ Le "robots=off" est important car le fichier robots.txt contient une règle pour
 Une fois le dossier sur notre ordi, nous avons fait un find sur le shell pour trouver les paths de tous les fichiers des sous-répertoires.
 On a d'abord cat tous les fichiers index.html trouvés, puis sans résultat, on a cat tous les fichiers README pour y trouver le flag.
 
+find ./10.12.1.124
+find ./10.12.1.124 -name index.html
+find ./10.12.1.124 -name README
+
 
 Il est possible pour des pirates de crawler ou telecharger tout un site internet pour l'analyser et récupérer les données intéressantes.
 Il est vain de vouloir cacher quelque chose dans une arborescence compliquée car personne ne cherchera à le trouver à la main.
