@@ -1,5 +1,13 @@
 Tentatives, utilisation d'un outil de brute force avec dictionnaire, mais il ne pouvait distingue un login réussi d'un login echoué
+En utilisant les données de la base de données, on essaye de se login. On remarque qu il n'y a pas de limite de tentative de connexion. 
+On essaye donc un outil de brute force avec dictionnaire, mais il ne pouvait distinguer un login reussi d'un login echoué.
+Apres recherche, on a reussit à se log avec le fichier rockyou.txt (73e mot de passe: shadow) et le script.sh qui teste tous les mots de passe du fichier en brute force.
 
+On a donc un mot de passe facilement trouvable ce qui expose le site aux attaques brute force. Le mot de passe n'a pas d'exigence: 
+tous les caracteres sont des lettres et en minisucules
 
+Pour eviter ce genre de problème, il faut changer les exigences de mot de passe: exigés majuscule, minuscule, chiffre et caractères speciaux.
+Cela rendra le login en brute force pratiquement impossible.
 
-rockyou.txt 73eme motdepasse
+Source:
+    https://github.com/praetorian-code/Hob0Rules/blob/master/wordlists/rockyou.txt.gz

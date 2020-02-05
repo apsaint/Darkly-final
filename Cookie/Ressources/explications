@@ -2,5 +2,8 @@ Dans l'inspecteur de page web, on peut trouver un cookie qui s'appelle I_am_admi
 
 C'est dangereux de se fier à des données stockées sur le navigateur du client, on peut les modifier et en profiter pour pirater le serveur. ici on peut avoir les droits administrateur simplement en modifiant le cookie.
 
-
 D'abord, MD5 n'est plus du tout sécurisé, il existe des algo de hashage bien meilleur. Mais surtout il ne faut pas stocker ce genre d'infos en cookie. Il est préférable d'utiliser les sessions qui restent stockées en back-end.
+
+Source:
+    https://www.md5online.org/md5-decrypt.html
+    https://www.dcode.fr/hash-md5
