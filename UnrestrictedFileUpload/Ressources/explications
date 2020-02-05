@@ -1,4 +1,4 @@
-Sur la page upload (/?page=upload), on a essaye d'upload different fichier de differents type (jpg, php, etc).
+Sur la page upload (/?page=upload), on a essaye d'upload differents fichiers de differents types (jpg, php, etc).
 On a remarque que si on passait un fichier .php.jpg, il arrivait à l upload, il y a donc un probleme au niveau de la verification du type de fichier!
 Avec Postman, on a pu créer une requete POST avec un fichier .php en editant le content-type en image/jpeg.
 La reponse de la requete est une page html avec le flag.
