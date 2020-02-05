@@ -1,0 +1,33 @@
+On testant les url du site, on a trouvé une page de connexion administrateur.
+L'url (/admin/) est très classique et donc se trouve sans difficulté.
+
+On a cherché un fichier .htaccess, mais il n'y en avait pas, et on a appris même que le serveur web n'était pas Apache mais Nginx.
+On a trouvé par contre un fichier robots.txt, qui est commun a tous les sites qui veulent optimiser leur SEO en indiquant aux robots des référenceurs de pages web (google etc.) ce qu'il faut indexer ou non.
+
+User-agent: *
+Disallow: /whatever
+Disallow: /.hidden
+
+Ce fichier révèle l'existence de 2 chemins /whatever et /.hidden
+
+Nous allons traiter de /whatever
+
+Dans le chemin /whatever il y a un fichier nommé "htpasswd", ce nom de fichier ressemble au .htpasswd, qui est utilisé pour sécuriser des dossiers sous... Apache... et fonctionne avec .htaccess. Bref, ce fichier htpasswd contient un login/mot de passe et sert à authentifier ceux qui souhaitent accédes à la partie admin.
+
+Le fichier contient "root:8621ffdbc5698829397d97767ac13db3", le hash venant de "dragon", ce qui se retoruver avec un outil en ligne avec une bdd de hash récurrents.
+
+Il suffit de se connecter avec root/dragon sur la page admin pour obtenir le flag. 
+
+
+
+
+
+
+
+
+Déjà, la page d'accès admin pourrait être cachée. Idéalement, l'admin devrait être un membre classique avec un niveau de privilège plus élevé lui permettant d'accéder à des ressources sensibles. Il serait alors difficile de savoir quel compte est un compte admin.
+
+Quant au fichier htpasswd (il n'est pas obligé de porter un nom si évident), il devrait se trouver dans le dossier qu'il doit sécuriser.
+Mais comme on est sous Nginx, il faut directement le configurer pour protéger certaines zones du site, ce qui est plus propre et ne laisse pas de fichiers avec des infos cruciales.
+
+Encore une fois le Md5 n'est pas recommendé pour la sécurité !

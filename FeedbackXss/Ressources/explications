@@ -1,0 +1,6 @@
+Sur la page des feedbacks (/index.php?page=feedback), on a mit "script" dans le champ "name" du formulaire.
+
+A la base on voulait insérer du code JS dans le formulaire pour qu'il soit enregistré en BDD comme tel.
+Il serait ainsi exécuté par tous les utilisateurs qui chargeront les feedbacks, ce qui peut permettre des abus de la part de hackers.
+
+Il faut valider dans le JS comme dans le back-end, ce qui est envoyé par l'utilisateur et bloquer tout ce qui est balise <script>.

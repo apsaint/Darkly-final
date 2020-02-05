@@ -1,0 +1,28 @@
+On testant les url du site, on a trouvé une page de connexion administrateur.
+L'url (/admin/) est très classique et donc se trouve sans difficulté.
+
+On a cherché un fichier .htaccess, mais il n'y en avait pas, et on a appris même que le serveur web n'était pas Apache mais Nginx.
+On a trouvé par contre un fichier robots.txt, qui est commun a tous les sites qui veulent optimiser leur SEO en indiquant aux robots des référenceurs de pages web (google etc.) ce qu'il faut indexer ou non.
+
+User-agent: *
+Disallow: /whatever
+Disallow: /.hidden
+
+Ce fichier révèle l'existence de 2 chemins /whatever et /.hidden
+
+Nous allons traiter de /.hidden
+
+Dans .hidden, nous trouvons une grande arborescence de dossiers avec des noms hashés, pour comprendre où aller, nous avons téléchargé le dossier entier
+avec wget ==> "wget -m -r --no-parent -e robots=off http://10.12.1.124/"
+
+Le "robots=off" est important car le fichier robots.txt contient une règle pour ignorer le dossier /.hidden
+
+Une fois le dossier sur notre ordi, nous avons fait un find sur le shell pour trouver les paths de tous les fichiers des sous-répertoires.
+On a d'abord cat tous les fichiers index.html trouvés, puis sans résultat, on a cat tous les fichiers README pour y trouver le flag.
+
+
+Il est possible pour des pirates de crawler ou telecharger tout un site internet pour l'analyser et récupérer les données intéressantes.
+Il est vain de vouloir cacher quelque chose dans une arborescence compliquée car personne ne cherchera à le trouver à la main.
+
+Si on veut cacher un dossier, il faut configurer son outil web nginx, apache, etc.
+

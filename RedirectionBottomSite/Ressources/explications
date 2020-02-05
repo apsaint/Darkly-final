@@ -1,0 +1,8 @@
+Sur la page d'accueil, il y a 3 liens vers des réseux sociaux. Les liens sont de la forme (/index.php?page=redirect&site=xxx). Il se trouve qu'on peut mettre ce que l'on veut dans le champ "site".
+
+
+Le problème ici est qu'on peut partager un tel lien. Si le nom de domaine est réputé comme être confiance, on peut cependant s'en servir pour rediriger vers des sites malveillants qui se font passer pour lui.
+
+
+Il suffit de directement mettre le lien du site sur lequel on veut diriger (twitter, facebook, instagram), ou alors dans ce cas, contrôler les valeur entrée et d'autoriser uniquement les sites que l'on souhaite.
+

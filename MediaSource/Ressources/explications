@@ -1,0 +1,26 @@
+Sur la page d'accueil, l'image de la NSA est cliquable contrairement aux autres et redirige sur (?page=media&src=nsa)
+Le src=nsa indique que l'image affichée dépend de la requête HTTP, donc on a essayé divers requetes.
+src=toto indique "Wrong Answer" donc le but est bien de trouver le bon mot.
+
+On a essayé de mettre des liens vers des sites web externes.
+
+On a essayé de mettre des données comme des images en base64, mais toujours wrong answer.
+
+
+Puis on a essayé du texte en data/base64 et le texte s'est affiché à la place de l'image NSA, donc on a essayé diverse choses
+jusqu'à de l'injection XSS avec console.log("coucou"), puis alert("coucou")
+
+
+echo -n "<script>alert("coucou")</script>" | ./ft_ssl base64
+PHNjcmlwdD5hbGVydChjb3Vjb3UpPC9zY3JpcHQ+
+
+=
+
+/?page=media&src=data:text/html;base64,PHNjcmlwdD5hbGVydChjb3Vjb3UpPC9zY3JpcHQ+
+
+
+Un pirate peut s'en servir pour envoyer un lien de confiance et ajouter du code malveillant qui peut abuser des utilisateurs.
+
+
+Là encore, il ne faut pas faire confiance à ce qu'envoie l'utilisateur, il fallait le contrôler/valider en backend.
+De même il est préférable d'utiliser des identifiants pour faire référence à ses ressources.

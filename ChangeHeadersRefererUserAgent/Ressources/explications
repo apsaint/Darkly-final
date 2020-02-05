@@ -1,0 +1,4 @@
+Sur la page (/index.php?page=e43ad1fdc54babe674da7c7b8f0127bde61de3fbe01def7d00f151c2fcca6d1c) avec Les Diomédéidés, il y a des commentaires cachés dans le code HTML, préconisant de changer le referer par nsa.gov et le user-agent par ft_bornToSec. Ce qu'on a fait avec postman qui permet de modifier les headers des requêtes HTTP.
+
+
+Je ne vois pas où est la faille. 

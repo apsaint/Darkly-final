@@ -1,0 +1,7 @@
+Dans l'onglet Survey (/?page=survey), on peut utiliser l'outil d'inspection pour modifier les valeurs des selects du formulaire de sondage.
+
+
+On peut donc envoyer n'importe quelle valeur et donc fausser les résultats du sondage.
+
+
+Le serveur du site web devrait valider ce qui lui est envoyé comme valeurs.
